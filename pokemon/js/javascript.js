@@ -32,7 +32,7 @@ var charmander = {
 
 var pikachu = {
     name: "Pikachu",
-    health: 100,
+    health: 0,
     lvl: 9,
     effect: null,
     moves: [{
@@ -82,10 +82,23 @@ var playerTurn = {
 
 };
 
+var loop = function (){
+    if(cpuPokemon.health <= 0 || userPokemon <= 0){
+        $("#game-over").removeClass("hide");
+        console.log("Game Over!");
+    }
+}
+
 var init = function() {
     cpuPokemon = pikachu;
     userPokemon = charmander;
     $("#cpu-name").text(cpuPokemon.name);
+    $("#cpu-lvl").text("lvl " + cpuPokemon.lvl);
+    $("#user-name").text(userPokemon.name);
+    $("#user-lvl").text("lvl " + userPokemon.lvl);
+    currentState = playerTurn;
+    loop();
+    
 
 };
 
