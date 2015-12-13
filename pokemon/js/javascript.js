@@ -83,7 +83,19 @@ var cpuTurn = {
                 $('#pikachu-img').animate({
                 top: "+=25",
                 }, 200)
-            })
+            });
+            getAccuracy();
+        };
+
+        var getAccuracy = function(){
+            var setAccuracy = Math.randon();
+            if (setAccuracy <= currentCPUmove.accuracy){
+                $("#chat-text").text(cpuPokemon.name + " used " + currentCPUmove.name + "!");
+            } else {
+                $("#chat-text").text(cpuPokemon.name + " missed with " + currentCPUmove.name + "!");
+                currentState = playerTurn;
+                setTimeout(loop, 2000)
+            }
         };
 
         setUpCPUField();
