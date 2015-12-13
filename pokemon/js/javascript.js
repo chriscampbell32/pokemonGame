@@ -32,7 +32,7 @@ var charmander = {
 
 var pikachu = {
     name: "Pikachu",
-    health: 0,
+    health: 100,
     lvl: 9,
     effect: null,
     moves: [{
@@ -68,7 +68,12 @@ var userPokemon;
 
 var cpuTurn = {
     play: function() {
+        var randomMove = Math.floor(Math.random() * 4);
+        var currentCPUmove = cpuPokemon.moves[randomMove];
 
+        var setUpCPUField = function() {
+            $('#chat-text').text("What will " + cpuPokemon.name + " do?")
+        };
     }
 
 
@@ -85,7 +90,9 @@ var playerTurn = {
 var loop = function (){
     if(cpuPokemon.health <= 0 || userPokemon <= 0){
         $("#game-over").removeClass("hide");
-        console.log("Game Over!");
+        console.log("Game-Over!");
+    } else {
+        currentState.play();
     }
 }
 
