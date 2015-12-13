@@ -72,8 +72,21 @@ var cpuTurn = {
         var currentCPUmove = cpuPokemon.moves[randomMove];
 
         var setUpCPUField = function() {
-            $('#chat-text').text("What will " + cpuPokemon.name + " do?")
+            $('#chat-text').text("What will " + cpuPokemon.name + " do?");
+            prepareToAttack();
         };
+
+        var prepareToAttack = function() {
+            $('#pikachu-img').animate({
+                top: "-=25",
+            }, 200, function(){
+                $('#pikachu-img').animate({
+                top: "+=25",
+                }, 200)
+            })
+        };
+
+        setUpCPUField();
     }
 
 
@@ -103,7 +116,7 @@ var init = function() {
     $("#cpu-lvl").text("lvl " + cpuPokemon.lvl);
     $("#user-name").text(userPokemon.name);
     $("#user-lvl").text("lvl " + userPokemon.lvl);
-    currentState = playerTurn;
+    currentState = cpuTurn;
     loop();
     
 
