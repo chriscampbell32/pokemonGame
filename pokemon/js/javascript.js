@@ -91,12 +91,21 @@ var cpuTurn = {
             var setAccuracy = Math.randon();
             if (setAccuracy <= currentCPUmove.accuracy){
                 $("#chat-text").text(cpuPokemon.name + " used " + currentCPUmove.name + "!");
+                getMoveType();
             } else {
                 $("#chat-text").text(cpuPokemon.name + " missed with " + currentCPUmove.name + "!");
                 currentState = playerTurn;
                 setTimeout(loop, 2000)
             }
         };
+
+        var getMoveType = function(){
+            if(currentCPUmove.type == "Attack") {
+                setTimeout(attackingMove, 1500);
+            } else{
+                setTimeout(defensiveMove, 1500);
+            }
+        }
 
         setUpCPUField();
     }
