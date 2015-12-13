@@ -7,26 +7,26 @@ var charmander = {
         name: "EMBER",
         type: "Attack",
         power: 20,
-        acuracy: .80
+        accuracy: .80
         },
         {
         name: "SCRATCH",
         type: "Attack",
         power: 10,
-        acuracy: .90
+        accuracy: .90
         },
         {
         name: "LEER",
         type: "Defense",
         power: .20,
-        acuracy: 1.0
+        accuracy: .6
         },
         {
         name: "GROWL",
         type: "Defense",
         power: .20,
-        acuracy: .70
-        },]
+        accuracy: .70
+        }]
         
 };
 
@@ -39,26 +39,26 @@ var pikachu = {
         name: "THUNDER SHOCK",
         type: "Attack",
         power: 10,
-        acuracy: .95
+        accuracy: .95
         },
         {
         name: "THUNDER WAVE",
         type: "Attack",
         power: 25,
-        acuracy: .50
+        accuracy: .50
         },
         {
         name: "TAIL WHIP",
         type: "Defense",
         power: .15,
-        acuracy: 1.0
+        accuracy: .6
         },
         {
         name: "GROWL",
         type: "Defense",
         power: .55,
-        acuracy: .55
-        },]
+        accuracy: .55
+        }]
         
 };
 
@@ -88,30 +88,41 @@ var cpuTurn = {
         };
 
         var getAccuracy = function(){
-            var setAccuracy = Math.randon();
+            var setAccuracy = Math.random();
+
             if (setAccuracy <= currentCPUmove.accuracy){
                 $("#chat-text").text(cpuPokemon.name + " used " + currentCPUmove.name + "!");
+
                 getMoveType();
+                
+
             } else {
                 $("#chat-text").text(cpuPokemon.name + " missed with " + currentCPUmove.name + "!");
                 currentState = playerTurn;
-                setTimeout(loop, 2000)
+                setTimeout(loop, 1500);
             }
         };
 
         var getMoveType = function(){
+            showMoveAnimation();
             if(currentCPUmove.type == "Attack") {
                 setTimeout(attackingMove, 1500);
             } else{
                 setTimeout(defensiveMove, 1500);
             }
-        }
+        };
+
+        var showMoveAnimation = function() {
+            $("#attack-img").addClass("cpu-attack-img");
+            $("#attack-img").removeClass("hide");
+            $("#attack-img").fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100);
+        };
 
         setUpCPUField();
     }
 
 
-    };
+    }
 
 var playerTurn = {
     play: function(){
