@@ -6,13 +6,13 @@ var charmander = {
     moves: [{
         name: "EMBER",
         type: "Attack",
-        power: 20,
+        power: 30,
         accuracy: .80
         },
         {
         name: "SCRATCH",
         type: "Attack",
-        power: 10,
+        power: 20,
         accuracy: .90
         },
         {
@@ -38,13 +38,13 @@ var pikachu = {
     moves: [{
         name: "THUNDER SHOCK",
         type: "Attack",
-        power: 10,
+        power: 20,
         accuracy: .95
         },
         {
         name: "THUNDER WAVE",
         type: "Attack",
-        power: 25,
+        power: 35,
         accuracy: .50
         },
         {
@@ -154,17 +154,93 @@ var cpuTurn = {
 
 var playerTurn = {
     play: function(){
+        var currentUserMove;
         var setUpUserfield = function(){
-            var moveButtons = ["move1-text", "move2-text", "move3-text", "move4-text"];
+            var moveButtons = ["#move1-text", "#move2-text", "#move3-text", "#move4-text"];
 
 
             $("#user-buttons").removeClass("hide");
-            $("#chat-text").text("What will " + userPokemon.name + "do?");
+            $("#chat-text").text("What will " + userPokemon.name + " do?");
 
             for (var i = moveButtons.length - 1; i >= 0; i--) {
                 $(moveButtons[i]).text(userPokemon.moves[i].name);
-            };
+            }
         };
+
+         var prepareToAttack = function() {
+            $("#user-buttons").addClass("hide");
+            $('#charmander-img').animate({
+                top: "-=25",
+            }, 200, function(){
+                $('#charmander-img').animate({
+                top: "+=25",
+                }, 200)
+            });
+            getAccuracy();
+        };
+
+        var getAccuracy = function(){
+            var setAccuracy = Math.random();
+
+            if (setAccuracy <= currentUserMove.accuracy){
+                $("#chat-text").text(userPokemon.name + " used " + currentUserMove.name + "!");
+
+                getMoveType();
+                
+
+            } else {
+                $("#chat-text").text(userPokemon.name + " missed with " + currentUserMove.name + "!");
+                currentState = cpuTurn;
+                setTimeout(loop, 1500);
+            }
+        };
+
+        var getMoveType = function(){
+            showMoveAnimation();
+            if(currentUserMove.type == "Attack") {
+                setTimeout(attackingMove, 1500);
+            } else{
+                setTimeout(defensiveMove, 1500);
+            }
+        };
+
+         var showMoveAnimation = function() {
+            $("#attack-img").addClass("user-attack-img");
+            $("#attack-img").removeClass("hide");
+            $("#attack-img").fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100);
+        };
+
+        var attackingMove = function() {
+            $("#attack-img").addClass("hide");
+            $("#attack-img").removeClass("user-attack-img");
+            if (!userPokemon.effect){
+                cpuPokemon.health -= currentUserMove.power;
+            } else {
+                cpuPokemon.health -= (currentUserMove.power) - (currentUserMove.power * userPokemon.effect);
+                userPokemon.effect = null;
+            }
+            $("#cpu-health-bar").css("width", cpuPokemon.health + "%");
+            currentState = cpuTurn;
+            loop();
+        };
+
+        var defensiveMove = function() {
+            $("#attack-img").addClass("hide");
+            $("#attack-img").removeClass("user-attack-img");
+            cpuPokemon.effect = currentUserMove.power;
+            currentState = cpuTurn;
+            loop();
+        }
+
+        $("#move1-button, #move2-button, #move3-button, #move4-button").unbind().click(function(){
+            var move = $(this).attr("value");
+
+            currentUserMove = userPokemon.moves[move];
+            prepareToAttack();
+        });
+
+
+
         setUpUserfield();
 
     }
@@ -188,7 +264,7 @@ var init = function() {
     $("#cpu-lvl").text("lvl " + cpuPokemon.lvl);
     $("#user-name").text(userPokemon.name);
     $("#user-lvl").text("lvl " + userPokemon.lvl);
-    currentState = cpuTurn;
+    currentState = playerTurn;
     loop();
     
 
