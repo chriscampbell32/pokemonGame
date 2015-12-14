@@ -132,6 +132,14 @@ var cpuTurn = {
             loop();
         };
 
+        var defensiveMove = function() {
+            $("#attack-img").addClass("hide");
+            $("#attack-img").removeClass("cpu-attack-img");
+            userPokemon.effect = currentCPUmove.power;
+            currentState = playerTurn;
+            loop();
+        }
+
         
 
 
@@ -146,6 +154,18 @@ var cpuTurn = {
 
 var playerTurn = {
     play: function(){
+        var setUpUserfield = function(){
+            var moveButtons = ["move1-text", "move2-text", "move3-text", "move4-text"];
+
+
+            $("#user-buttons").removeClass("hide");
+            $("#chat-text").text("What will " + userPokemon.name + "do?");
+
+            for (var i = moveButtons.length - 1; i >= 0; i--) {
+                $(moveButtons[i]).text(userPokemon.moves[i].name);
+            };
+        };
+        setUpUserfield();
 
     }
 
